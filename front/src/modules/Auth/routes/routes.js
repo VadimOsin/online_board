@@ -1,5 +1,6 @@
 import {ADMIN_ROUTE, ADS_ROUTE, BOARD_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE} from "../utils/const";
 import Login from "../component/login/login";
+import Board from "../../Board/Board";
 
 export const authRoutes = [
     // {
@@ -13,10 +14,10 @@ export const authRoutes = [
 ]
 
 export const publicRoutes = [
-    // {
-    //     path: BOARD_ROUTE,
-    //     Component: Board
-    // },
+    {
+        path: BOARD_ROUTE,
+        Component: Board
+    },
     {
         path: LOGIN_ROUTE,
         Component: Login
