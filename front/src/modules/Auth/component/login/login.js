@@ -15,8 +15,6 @@ const Login = () => {
     const [reg, setReg] = useState({
         login: '',
 
-        password: '',
-
         email: '',
 
         tel: '',
@@ -40,8 +38,6 @@ const Login = () => {
     const onReset = () => {
         setReg({
             login: '',
-
-            password: '',
 
             email: '',
 
@@ -94,7 +90,8 @@ const Login = () => {
                         });
                     }
                 );
-            signIn(data.id, data.login, data.password, data.role)
+
+            signIn(data.id, data.login,data.role)
             setModal({
                 title: 'Вход выполнен!',
                 text: "Подождите вас перенаправит на главную страницу",

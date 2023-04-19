@@ -11,11 +11,10 @@ const Auth = () => {
         isAuth: false
     });
 
-    const signIn = (id, login , password,role) => {
+    const signIn = (id, login,role) => {
         setUser({
             id: id,
             login: login,
-            password: password,
             role: role,
             isAuth: true
         });

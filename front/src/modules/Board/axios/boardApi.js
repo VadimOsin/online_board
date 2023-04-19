@@ -18,9 +18,9 @@ export const deleteAdsToBoard = async (id) => {
     }
 };
 
-export const getAllAdsToBoard = async (id) => {
+export const getAllAdsToBoard = async () => {
     try {
-        const {data} = await $authHost.get(`api/board/${id}`)
+        const {data} = await $authHost.get(`api/board/`)
 
         return data
     } catch (error) {

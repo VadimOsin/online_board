@@ -1,28 +1,8 @@
 import {$authHost} from "../../../global/indexHost";
 
-export const createAds = async ({
-                                    title,
-                                    text,
-                                    date_created,
-                                    date_end,
-                                    date_updated,
-                                    likes,
-                                    dislike,
-                                    id_person,
-                                    img
-                                }) => {
+export const createAds = async (ads) => {
     try {
-        const {data} = await $authHost.post('api/ads/', {
-            title,
-            text,
-            date_created,
-            date_end,
-            date_updated,
-            likes,
-            dislike,
-            id_person,
-            img
-        })
+        const {data} = await $authHost.post('api/ads/', ads)
         return data
     } catch (error) {
         throw new Error('Ошибка при создании записи!');

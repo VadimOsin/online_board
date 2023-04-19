@@ -8,7 +8,7 @@ body {
 
 .container {
     border-radius: 32px;
-    width: 70vw;
+    width: 74vw;
     margin: 5rem auto;
 }
 .container .content {
@@ -129,142 +129,22 @@ body {
     overflow-y: scroll;
     align-content: flex-start;
 }
-.projects .project-item {
-    padding: 16px;
-    margin: 12px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    border-radius: 5px;
-    box-shadow: 0 1px 1px 1px rgba(181, 181, 181, 0.38);
-    user-select: none;
-    width: 285px;
-}
-.projects .project-item .logo-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.projects .project-item .logo-row img {
-    border-radius: 8px;
-    display: block;
-}
-.projects .project-item .logo-row .icon {
-    color: #bbc3c9;
-}
-.projects .project-item .title-row {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    margin: 20px 0 10px;
-}
-.projects .project-item .title-row h3 {
-    font-weight: bold;
-}
-.projects .project-item .title-row .links {
-    display: flex;
-    align-content: center;
-    padding: 8px 0;
-    color: #88909c;
-    font-size: 0.75em;
-}
-.projects .project-item .title-row .links .icon {
-    margin-right: 5px;
-}
-.projects .project-item .title-row .links a {
-    color: #88909c;
-    text-decoration: none;
-}
-.projects .project-item .desc-row {
-    color: #88909c;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 18px;
-}
-.projects .project-item .progress-row {
-    display: flex;
-    flex-direction: column;
-    margin: 20px 0;
-}
-.projects .project-item .progress-row p.value-label {
-    display: block;
-}
-.projects .project-item .progress-row p[data-value] {
-    position: relative;
-}
-.projects .project-item .progress-row p[data-value]:after {
-    content: attr(data-value) "%";
-    color: #88909c;
-    font-size: 12px;
-    position: absolute;
-    display: block;
-    right: -10px;
-}
-.projects .project-item .progress-row progress {
-    display: block;
-    position: relative;
-    width: 100%;
-    margin-top: 20px;
-    -webkit-appearance: none;
-    height: 6px;
-}
-.projects .project-item .progress-row progress::-webkit-progress-bar {
-    background-color: #d7dce0;
-    border-radius: 5px;
-}
-.projects .project-item .progress-row ::-webkit-progress-value {
-    background-color: #17c993;
-    border-radius: 5px;
-}
-.projects .project-item .progress-row .low::-webkit-progress-value {
-    background-color: #ec407a;
-}
-.projects .project-item .footer-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.projects .project-item .footer-row .days {
-    padding: 8px 5px;
-    border-radius: 4px;
-    background: #bbc3c9;
-    font-size: 12px;
-    color: #565d68;
-}
-.projects .project-item .footer-row .days.good {
-    color: #4caf50;
-    background: #fcfefc;
-}
-.projects .project-item .footer-row .days.warning {
-    color: #fb8c00;
-    background: #ffe7c8;
-}
-.projects .project-item .footer-row .days.danger {
-    color: #d32f2f;
-    background: #f7d7d7;
-}
-.projects .project-item .footer-row .users img {
-    border-radius: 3px;
-    margin: 0 2px;
-}
 
 .fab-icon {
-    position: absolute;
+    position: relative;
     z-index: 1000;
-    bottom: 50px;
-    right: 50px;
-    color: #fafbfb;
+    top: -0.5rem;
+    left: 1rem;
     background: #0068ff;
     border-radius: 50%;
     text-align: center;
-    padding-top: 5px;
     font-size: 3em;
     box-sizing: border-box;
-    box-shadow: 10px 10px 73px 12px rgba(0, 104, 255, 0.35);
+    box-shadow: 10px 10px 73px 12px rgb(0 104 255 / 35%);
     width: 60px;
     height: 60px;
 }
+
 .fab-icon:hover {
     cursor: pointer;
 }

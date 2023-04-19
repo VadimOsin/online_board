@@ -9,9 +9,5 @@ export const UserContext = createContext({
 
     role:'',
 
-    isAuth: false,
-
-    signIn: () => {},
-
-    logOut: () => {},
+    isAuth: false
 });

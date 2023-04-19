@@ -34,7 +34,7 @@ class UserController {
             await db.query(`INSERT INTO "person_meta" (email, telephone, name, surname, id_person)
                         VALUES ($1, $2, $3, $4, $5)`, [email, telephone, name, surname, user.rows[0].id_person]);
 
-            const token = generateJwt(user.rows[0].id_person, login);
+            const token = generateJwt(user.rows[0].id_person, login,user.rows[0].role);
 
             return res.json({ token });
         } catch (e) {
@@ -55,7 +55,7 @@ class UserController {
             if (!comparePassword) {
                 return next(ApiError.internal('Указан неверный пароль'))
             }
-            const token = generateJwt(user.rows[0].id, user.rows[0].login, user.rows[0].role)
+            const token = generateJwt(user.rows[0].id_person, user.rows[0].login, user.rows[0].role)
             return res.json({ token });
         } catch (e) {
             res.status(400).json({message: "login error"})
