@@ -81,3 +81,13 @@
     border-radius: 3px;
     margin: 0 2px;
 }
+
+.btn_delete{
+    position: relative;
+    top: -1.5rem;
+    left: 5.4rem;
+    background: red;
+    padding: 5px;
+    border: 1px black solid;
+    border-radius: 30px;
+}

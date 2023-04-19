@@ -26,13 +26,8 @@ class BoardController {
 
     async boardGetAll(req, res) {
         try {
-            const ads = await db.query(`
-        SELECT a.*, COALESCE(b.id_board, 0) AS in_board, COALESCE(ar.id_archive, 0) AS in_archive
-        FROM ads a
-        LEFT JOIN board b ON a.id_ads = b.id_ads
-        LEFT JOIN archive ar ON a.id_ads = ar.id_ads
-      `);
-            return res.json({ ads: ads.rows });
+            const board = await db.query("SELECT * FROM board");
+            return res.json(board.rows);
         } catch (err) {
             return res.status(500).json({ message: "Error getting ads", error: err });
         }

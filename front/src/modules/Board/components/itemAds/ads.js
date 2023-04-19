@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import './ads.css'
+import {UserContext} from "../../../Auth/context/userContext";
 
-const Ads = ({ads}) => {
+const Ads = ({ads,onDelete}) => {
+    const user = useContext(UserContext)
     const date = new Date(ads.date_end.substring(0, 19));
     const today = new Date();
     const diffTime = date.getTime() - today.getTime();
@@ -20,6 +22,7 @@ const Ads = ({ads}) => {
         <li className="project-item">
             <div className="logo-row"><img src={process.env.REACT_APP_API_URL + ads.url} width={60} height={60}
                                            alt="img"/>
+                {user.role === "ADMIN" ? <div className="btn_delete" onClick={(e)=>onDelete(ads.id_ads)}>delete</div> : ""}
                 <div className="icon"><i className="fa fa-ellipsis-h icon"
                                          aria-hidden="true"></i></div>
             </div>

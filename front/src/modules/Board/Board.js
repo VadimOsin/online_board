@@ -1,12 +1,12 @@
 import React, {useContext, useEffect, useState} from 'react';
 import './Board.css'
 import Navbar from "./components/navbar/navbar";
-import {getAllAdsToBoard} from "./axios/boardApi";
+import {createAdsToBoard, deleteAdsToBoard, getAllAdsToBoard} from "./axios/boardApi";
 import Ads from "./components/itemAds/ads";
 import Modal from "./components/modal/modal";
 import {UserContext} from "../Auth/context/userContext";
-import {createAds} from "./axios/adsApi";
-import {getAllAdsToArchive} from "./axios/archiveApi";
+import {createAds, deleteAds, getOneByIdAds} from "./axios/adsApi";
+import {createAdsToArchive, getAllAdsToArchive} from "./axios/archiveApi";
 
 const Board = () => {
     const user = useContext(UserContext)
@@ -16,11 +16,19 @@ const Board = () => {
     const [open, setOpen] = useState(false)
     const [activeIndex, setActiveIndex] = useState(0);
     useEffect(() => {
-        getAllAdsToBoard().then(res =>
-            setListAds(res.ads)).catch(error => console.log(error.message))
+        getAllAdsToBoard().then(res => {
+                res.map(i =>
+                    getOneByIdAds(i.id_ads).then(response => setListAds([...listAds, response])).catch(error => console.log(error.message))
+                )
+            }
+        ).catch(error => console.log(error.message))
 
-        getAllAdsToArchive().then(res =>
-            setArchiveListAds(res.ads)).catch(error => console.log(error.message))
+        getAllAdsToArchive().then(res => {
+                res.map(i =>
+                    getOneByIdAds(i.id_ads).then(response => setArchiveListAds([...listArchiveAds, response])).catch(error => console.log(error.message))
+                )
+            }
+        ).catch(error => console.log(error.message))
     }, [])
 
     useEffect(() => {
@@ -38,8 +46,10 @@ const Board = () => {
         ads.append("date_end", formatDate(value.date_end))
         ads.append("date_updates", formatDate(""))
 
-        await createAds(ads).then(res =>
-            setListAds([...listAds, res])
+        await createAds(ads).then(res => {
+                setListAds([...listAds, res])
+                createAdsToBoard(res.id_ads).catch(error => console.log(error))
+            }
         ).catch(error => console.log(error))
     }
     const formatDate = (date = "") => {
@@ -52,8 +62,22 @@ const Board = () => {
         const day = currentDate.getDate().toString().padStart(2, "0");
         const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
         const year = currentDate.getFullYear().toString();
-        return  `${day}-${month}-${year}`;
+        return `${day}-${month}-${year}`;
 
+    }
+    const onDeleteBoard = async (value) => {
+        listAds.map(i => {
+            if (i.id_ads === value) {
+                setArchiveListAds([...listArchiveAds, i])
+            }
+        })
+        setListAds(listAds.filter(i => i.id_ads !== value))
+        await deleteAdsToBoard(value).catch(error => console.log(error))
+        await createAdsToArchive(value).catch(error => console.log(error))
+    }
+    const onDeleteToArchiveAds = async (value) => {
+        await deleteAds(value).catch(error => console.log(error))
+        setArchiveListAds(listArchiveAds.filter(i => i.id_ads !== value))
     }
     return (
         <div>
@@ -93,7 +117,7 @@ const Board = () => {
                                             return item;
                                         }
                                     }).map((i, index) =>
-                                        <Ads key={i.id_ads} ads={listAds[index]}/>
+                                        <Ads key={i.id_ads} ads={listAds[index]} onDelete={onDeleteBoard}/>
                                     )}
 
                                     {(activeIndex === 2 || activeIndex === 0) && listArchiveAds && listArchiveAds.filter(item => {
@@ -103,7 +127,8 @@ const Board = () => {
                                             return item;
                                         }
                                     }).map((i, index) =>
-                                        <Ads key={i.id_ads} ads={listArchiveAds[index]}/>
+                                        <Ads key={i.id_ads} ads={listArchiveAds[index]}
+                                             onDelete={onDeleteToArchiveAds}/>
                                     )}
                                 </ul>
                             </section>
