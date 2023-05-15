@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {UserContext} from "./context/userContext";
 import {authRoutes, publicRoutes} from "./routes/routes";
 import {Routes, Route} from 'react-router-dom';
+import {check} from "./axios/userApi";
+
 const Auth = () => {
     const [user, setUser] = useState({
         id: '',
@@ -11,7 +13,7 @@ const Auth = () => {
         isAuth: false
     });
 
-    const signIn = (id, login,role) => {
+    const signIn = (id, login, role) => {
         setUser({
             id: id,
             login: login,
@@ -29,6 +31,14 @@ const Auth = () => {
             isAuth: false
         });
     };
+
+    useEffect(() => {
+        check().then((response) => {
+            signIn(response.id, response.login, response.role)
+        })
+
+    }, [])
+
     return (
         <UserContext.Provider value={{...user, signIn, logOut}}>
             <Routes>

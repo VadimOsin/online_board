@@ -6,7 +6,7 @@ import {Link} from "react-router-dom";
 
 const Navbar = ({activeIndex,setActiveIndex,active=0,archive=0}) => {
     const user = useContext(UserContext)
-
+    const {logOut} = useContext(UserContext)
 
     const handleItemClick = (index) => {
         setActiveIndex(index);
@@ -32,7 +32,7 @@ const Navbar = ({activeIndex,setActiveIndex,active=0,archive=0}) => {
             <div className="user-options">
                 {user.isAuth ? <>
                     <div className="user-info">{user.login}< /div>
-                    <Link to={BOARD_ROUTE}>Выйти!</Link></> : <Link to={LOGIN_ROUTE}>Войдите!</Link>}
+                    <Link to={BOARD_ROUTE} onClick={logOut}>Выйти!</Link></> : <Link to={LOGIN_ROUTE}>Войдите!</Link>}
             </div>
         </header>
     );
