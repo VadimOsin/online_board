@@ -73,7 +73,6 @@ class AdsController {
             let fileName = uuid.v4() + ".jpg"
             img.mv(path.resolve(__dirname, '..', 'static', fileName))
             date_created = moment(date_created, 'DD-MM-YYYY').format('YYYY-MM-DD');
-            date_end = moment(date_end, 'DD-MM-YYYY').format('YYYY-MM-DD');
             const newAds = await db.query(`INSERT INTO ads (title,
                                                             text,
                                                             url,

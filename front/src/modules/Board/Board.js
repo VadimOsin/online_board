@@ -6,7 +6,7 @@ import Ads from "./components/itemAds/ads";
 import Modal from "./components/modal/modal";
 import {UserContext} from "../Auth/context/userContext";
 import {createAds, deleteAds, getOneByIdAds} from "./axios/adsApi";
-import {createAdsToArchive, getAllAdsToArchive} from "./axios/archiveApi";
+import {createAdsToArchive, deleteAdsToArchive, getAllAdsToArchive} from "./axios/archiveApi";
 
 const Board = () => {
     const user = useContext(UserContext)
@@ -15,21 +15,25 @@ const Board = () => {
     const [query, setQuery] = useState("")
     const [open, setOpen] = useState(false)
     const [activeIndex, setActiveIndex] = useState(0);
-    useEffect(() => {
-        getAllAdsToBoard().then(res => {
-                res.map(i =>
-                    getOneByIdAds(i.id_ads).then(response => setListAds([...listAds, response])).catch(error => console.log(error.message))
-                )
-            }
-        ).catch(error => console.log(error.message))
 
-        getAllAdsToArchive().then(res => {
-                res.map(i =>
-                    getOneByIdAds(i.id_ads).then(response => setArchiveListAds([...listArchiveAds, response])).catch(error => console.log(error.message))
-                )
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const boardAds = await getAllAdsToBoard();
+                const boardAdsById = await Promise.all(boardAds.map(i => getOneByIdAds(i.id_ads)));
+                setListAds(boardAdsById);
+
+                const archiveAds = await getAllAdsToArchive();
+                const archiveAdsById = await Promise.all(archiveAds.map(i => getOneByIdAds(i.id_ads)));
+                setArchiveListAds(archiveAdsById);
+            } catch (error) {
+                console.log(error.message);
             }
-        ).catch(error => console.log(error.message))
-    }, [])
+        };
+        fetchData();
+    }, []);
+
 
     useEffect(() => {
         setQuery("")
@@ -43,9 +47,8 @@ const Board = () => {
         ads.append("id_person", user.id)
         ads.append("img", file)
         ads.append("date_created", formatDate(""))
-        ads.append("date_end", formatDate(value.date_end))
-        ads.append("date_updates", formatDate(""))
-
+        ads.append("date_end", value.date_end)
+        ads.append("date_updated", formatDate(""))
         await createAds(ads).then(res => {
                 setListAds([...listAds, res])
                 createAdsToBoard(res.id_ads).catch(error => console.log(error))
@@ -63,7 +66,6 @@ const Board = () => {
         const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
         const year = currentDate.getFullYear().toString();
         return `${day}-${month}-${year}`;
-
     }
     const onDeleteBoard = async (value) => {
         listAds.map(i => {
@@ -72,10 +74,12 @@ const Board = () => {
             }
         })
         setListAds(listAds.filter(i => i.id_ads !== value))
-        await deleteAdsToBoard(value).catch(error => console.log(error))
-        await createAdsToArchive(value).catch(error => console.log(error))
+         await deleteAdsToBoard(value).catch(error => console.log(error))
+         await createAdsToArchive(value).catch(error => console.log(error))
+        console.log(value)
     }
     const onDeleteToArchiveAds = async (value) => {
+        await deleteAdsToArchive(value).catch(error => console.log(error))
         await deleteAds(value).catch(error => console.log(error))
         setArchiveListAds(listArchiveAds.filter(i => i.id_ads !== value))
     }

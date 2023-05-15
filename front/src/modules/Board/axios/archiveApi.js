@@ -21,7 +21,6 @@ export const deleteAdsToArchive = async (id) => {
 export const getAllAdsToArchive = async () => {
     try {
         const {data} = await $authHost.get(`api/archive/`)
-
         return data
     } catch (error) {
         throw new Error('Ошибка при получении записи!');

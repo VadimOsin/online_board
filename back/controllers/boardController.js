@@ -4,7 +4,7 @@ class BoardController {
     async boardDeleteAds(req, res, next) {
         const { id } = req.params;
         try {
-            const deletedAd = await db.query("DELETE FROM board WHERE id_board = $1 RETURNING *", [id]);
+            const deletedAd = await db.query("DELETE FROM board WHERE id_ads = $1 RETURNING *", [id]);
             if (deletedAd.rows.length === 0) {
                 return res.status(404).json({ message: "Ad not found in the board" });
             }

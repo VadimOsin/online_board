@@ -1,10 +1,9 @@
 import React, {useContext} from 'react';
 import './ads.css'
 import {UserContext} from "../../../Auth/context/userContext";
-
 const Ads = ({ads,onDelete}) => {
     const user = useContext(UserContext)
-    const date = new Date(ads.date_end.substring(0, 19));
+    const date = new Date(ads.date_end.slice(0, -5));
     const today = new Date();
     const diffTime = date.getTime() - today.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -18,6 +17,7 @@ const Ads = ({ads,onDelete}) => {
     } else {
         colorTime = ""
     }
+
     return (
         <li className="project-item">
             <div className="logo-row"><img src={process.env.REACT_APP_API_URL + ads.url} width={60} height={60}

@@ -4,7 +4,7 @@ class ArchiveController {
     async archiveDeleteAds(req, res) {
         const { id } = req.params;
         try {
-            const deletedArchive = await db.query("DELETE FROM archive WHERE id_archive = $1 RETURNING *", [id]);
+            const deletedArchive = await db.query("DELETE FROM archive WHERE id_ads = $1 RETURNING *", [id]);
             if (deletedArchive.rows.length === 0) {
                 return res.status(404).json({ message: "Archive not found" });
             }
@@ -15,9 +15,9 @@ class ArchiveController {
     }
 
     async archiveAddAds(req, res) {
-        const { id_ads } = req.body;
+        const { id } = req.params;
         try {
-            const newArchive = await db.query("INSERT INTO archive (id_ads) VALUES ($1) RETURNING *", [id_ads]);
+            const newArchive = await db.query("INSERT INTO archive (id_ads) VALUES ($1) RETURNING *", [id]);
             return res.json({ message: "Archive created", archive: newArchive.rows[0] });
         } catch (err) {
             return res.status(500).json({ message: "Error creating archive", error: err });

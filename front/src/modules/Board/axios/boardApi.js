@@ -21,7 +21,6 @@ export const deleteAdsToBoard = async (id) => {
 export const getAllAdsToBoard = async () => {
     try {
         const {data} = await $authHost.get(`api/board/`)
-
         return data
     } catch (error) {
         throw new Error('Ошибка при получении записи!');
