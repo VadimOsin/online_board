@@ -12,7 +12,7 @@ import Navbar from "./components/navbar/navbar";
 import {createAdsToBoard, deleteAdsToBoard, getAllAdsToBoard} from "./axios/boardApi";
 import Ads from "./components/itemAds/ads";
 import {UserContext} from "../Auth/context/userContext";
-import {createAds, deleteAds, getOneByIdAds} from "./axios/adsApi";
+import {createAds, deleteAds, getOneByIdAds, updateAds} from "./axios/adsApi";
 import {createAdsToArchive, deleteAdsToArchive, getAllAdsToArchive} from "./axios/archiveApi";
 import {Add} from "@mui/icons-material";
 import CustomModal from "./components/modal/modal";
@@ -67,11 +67,6 @@ const Board = () => {
     };
 
     const formatDate = (date = "") => {
-        if (date !== "") {
-            const currentDate = new Date();
-        } else {
-            const currentDate = new Date(date);
-        }
         const currentDate = new Date();
         const day = currentDate.getDate().toString().padStart(2, "0");
         const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
@@ -97,6 +92,10 @@ const Board = () => {
         setArchiveListAds(listArchiveAds.filter(i => i.id_ads !== value));
     };
 
+    const onEditAds = async value => {
+        // setOpen(true)
+        // await updateAds(value, id, title, text, date_created, date_end, date_updated, likes, dislike, id_person, img).catch(error => console.log(error))
+    };
     return (
         <div>
             <Navbar/>
@@ -120,7 +119,7 @@ const Board = () => {
 
                             <Tab label={`Все (${listArchiveAds?.length + listAds?.length})`}/>
                             <Tab label={`Активные (${listAds?.length})`}/>
-                            <Tab label={`Арзивные (${listArchiveAds?.length})`}/>
+                            <Tab label={`Архивные (${listArchiveAds?.length})`}/>
                         </Tabs>
                     </Box>
                     <List className="projects">
@@ -135,7 +134,7 @@ const Board = () => {
                                     }
                                 })
                                 .map(i => (
-                                        <Ads key={i.id_ads} ads={i} onDelete={onDeleteBoard}/>
+                                    <Ads key={i.id_ads} ads={i} onDelete={onDeleteBoard} onEditAds={onEditAds}/>
                                 ))}
                         {(activeIndex === 2 || activeIndex === 0) &&
                             listArchiveAds &&
@@ -148,7 +147,7 @@ const Board = () => {
                                     }
                                 })
                                 .map(i => (
-                                        <Ads key={i.id_ads} ads={i} onDelete={onDeleteToArchiveAds}/>
+                                    <Ads key={i.id_ads} ads={i} onDelete={onDeleteToArchiveAds} onEditAds={onEditAds}/>
                                 ))}
                     </List>
                     {user.role === 'ADMIN' && (
