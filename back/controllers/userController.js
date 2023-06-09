@@ -15,30 +15,34 @@ class UserController {
     async registration(req, res, next) {
         try {
             const { login, password, email, telephone, name, surname } = req.body;
-            if (!login || !password) {
-                return next(ApiError.badRequest('Некорректный логин или пароль'));
+
+            console.log(req.body)
+            if (!login || !password || !email || !telephone || !name || !surname) {
+                return next(ApiError.badRequest('Пожалуйста, заполните все поля'));
             }
-            const candidate = await db.query(`SELECT *
-                                           FROM "person"
-                                           WHERE login = $1`, [login]);
-            if (candidate.rows[0]) {
+
+            const candidate = await db.query('SELECT * FROM person WHERE login = $1', [login]);
+            if (candidate.rows.length > 0) {
                 return next(ApiError.badRequest('Пользователь с таким логином уже существует'));
             }
 
             const hashPassword = await bcrypt.hash(password, 5);
 
-            const user = await db.query(`INSERT INTO "person" (login, password,role)
-                                         VALUES ($1, $2,$3)
-                                             RETURNING id_person`, [login, hashPassword,"USER"]);
+            const user = await db.query(
+                'INSERT INTO person (login, password, role) VALUES ($1, $2, $3) RETURNING id_person',
+                [login, hashPassword, 'USER']
+            );
 
-            await db.query(`INSERT INTO "person_meta" (email, telephone, name, surname, id_person)
-                        VALUES ($1, $2, $3, $4, $5)`, [email, telephone, name, surname, user.rows[0].id_person]);
+            await db.query(
+                'INSERT INTO person_meta (email, telephone, name, surname, id_person) VALUES ($1, $2, $3, $4, $5)',
+                [email, telephone, name, surname, user.rows[0].id_person]
+            );
 
-            const token = generateJwt(user.rows[0].id_person, login,user.rows[0].role);
+            const token = generateJwt(user.rows[0].id_person, login, 'USER');
 
             return res.json({ token });
-        } catch (e) {
-            return next(ApiError.internal('Ошибка при регистрации', e));
+        } catch (error) {
+            return next(ApiError.internal('Ошибка при регистрации', error));
         }
     }
 

@@ -1,11 +1,11 @@
 import jwt_decode from 'jwt-decode';
 import {$authHost, $host} from "../../../global/indexHost";
 
-export const registration = async (login,password,email,telephone,name,surname) => {
+export const registration = async (login, password, email, telephone, name, surname) => {
     try {
-        const {data} = await $host.post('api/user/registration', {login,password,email,telephone,name,surname});
+        const {data} = await $host.post('api/user/registration', {login, password, email, telephone, name, surname});
         localStorage.setItem('token', data.token);
-        return jwt_decode(data.token)
+        return jwt_decode(data.token);
     } catch (error) {
         throw new Error('Ошибка при регистрации пользователя!');
     }
