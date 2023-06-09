@@ -1,21 +1,30 @@
 import React, {useContext, useEffect, useState} from 'react';
-import './Board.css'
+import {
+    Box,
+    Container,
+    TextField,
+    Tabs,
+    Tab,
+    List,
+    IconButton,
+} from '@mui/material';
 import Navbar from "./components/navbar/navbar";
 import {createAdsToBoard, deleteAdsToBoard, getAllAdsToBoard} from "./axios/boardApi";
 import Ads from "./components/itemAds/ads";
-import Modal from "./components/modal/modal";
 import {UserContext} from "../Auth/context/userContext";
 import {createAds, deleteAds, getOneByIdAds} from "./axios/adsApi";
 import {createAdsToArchive, deleteAdsToArchive, getAllAdsToArchive} from "./axios/archiveApi";
+import {Add} from "@mui/icons-material";
+import CustomModal from "./components/modal/modal";
+import './Board.css'
 
 const Board = () => {
-    const user = useContext(UserContext)
-    const [listAds, setListAds] = useState([])
-    const [listArchiveAds, setArchiveListAds] = useState([])
-    const [query, setQuery] = useState("")
-    const [open, setOpen] = useState(false)
+    const user = useContext(UserContext);
+    const [listAds, setListAds] = useState([]);
+    const [listArchiveAds, setArchiveListAds] = useState([]);
+    const [query, setQuery] = useState("");
+    const [open, setOpen] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -34,27 +43,29 @@ const Board = () => {
         fetchData();
     }, []);
 
-
     useEffect(() => {
-        setQuery("")
-    }, [activeIndex])
+        setQuery("");
+    }, [activeIndex]);
+
     const newAds = async (value, file) => {
-        const ads = new FormData()
-        ads.append("title", value.title)
-        ads.append("text", value.text)
-        ads.append("likes", value.likes)
-        ads.append("dislike", value.dislike)
-        ads.append("id_person", user.id)
-        ads.append("img", file)
-        ads.append("date_created", formatDate(""))
-        ads.append("date_end", value.date_end)
-        ads.append("date_updated", formatDate(""))
-        await createAds(ads).then(res => {
-                setListAds([...listAds, res])
-                createAdsToBoard(res.id_ads).catch(error => console.log(error))
-            }
-        ).catch(error => console.log(error))
-    }
+        const ads = new FormData();
+        ads.append("title", value.title);
+        ads.append("text", value.text);
+        ads.append("likes", value.likes);
+        ads.append("dislike", value.dislike);
+        ads.append("id_person", user.id);
+        ads.append("img", file);
+        ads.append("date_created", formatDate(""));
+        ads.append("date_end", value.date_end);
+        ads.append("date_updated", formatDate(""));
+        await createAds(ads)
+            .then(res => {
+                setListAds([...listAds, res]);
+                createAdsToBoard(res.id_ads).catch(error => console.log(error));
+            })
+            .catch(error => console.log(error));
+    };
+
     const formatDate = (date = "") => {
         if (date !== "") {
             const currentDate = new Date();
@@ -66,86 +77,103 @@ const Board = () => {
         const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
         const year = currentDate.getFullYear().toString();
         return `${day}-${month}-${year}`;
-    }
-    const onDeleteBoard = async (value) => {
+    };
+
+    const onDeleteBoard = async value => {
         listAds.map(i => {
             if (i.id_ads === value) {
-                setArchiveListAds([...listArchiveAds, i])
+                setArchiveListAds([...listArchiveAds, i]);
             }
-        })
-        setListAds(listAds.filter(i => i.id_ads !== value))
-         await deleteAdsToBoard(value).catch(error => console.log(error))
-         await createAdsToArchive(value).catch(error => console.log(error))
-        console.log(value)
-    }
-    const onDeleteToArchiveAds = async (value) => {
-        await deleteAdsToArchive(value).catch(error => console.log(error))
-        await deleteAds(value).catch(error => console.log(error))
-        setArchiveListAds(listArchiveAds.filter(i => i.id_ads !== value))
-    }
+        });
+        setListAds(listAds.filter(i => i.id_ads !== value));
+        await deleteAdsToBoard(value).catch(error => console.log(error));
+        await createAdsToArchive(value).catch(error => console.log(error));
+        console.log(value);
+    };
+
+    const onDeleteToArchiveAds = async value => {
+        await deleteAdsToArchive(value).catch(error => console.log(error));
+        await deleteAds(value).catch(error => console.log(error));
+        setArchiveListAds(listArchiveAds.filter(i => i.id_ads !== value));
+    };
+
     return (
         <div>
-            <div className="container">
-                <div className="content">
+            <Navbar/>
+            <Box>
+                <Container maxWidth="md" sx={{marginTop: 4}}>
+                    <TextField
+                        label="Фильтр"
+                        variant="outlined"
+                        fullWidth
+                        value={query}
+                        onChange={e => setQuery(e.target.value)}
+                        sx={{marginBottom: 2}}
+                    />
+                    <Box sx={{marginBottom: 2}}>
+                        <Tabs
+                            value={activeIndex}
+                            onChange={(_, newIndex) => setActiveIndex(newIndex)}
+                            textColor="primary"
+                            indicatorColor="primary"
+                        >
 
-                    <section className="main-content">
-                        <div className="app">
-                            <Navbar activeIndex={activeIndex} setActiveIndex={setActiveIndex} active={listAds?.length}
-                                    archive={listArchiveAds?.length}/>
-                            <section className="app-content">
-                                <header>
-                                    <div className="searchbox">
-                                        <div className="icon"><i className="fa fa-search" aria-hidden="true"></i></div>
-                                        <input type="text" name="search" placeholder="Search a project"
-                                               className="search-text"
-                                               value={query}
-                                               onChange={event => setQuery(event.target.value)}/>
-                                    </div>
-
-                                    <div className="app-list-options">
-                                        <div className="display-group">
-                                            <div className="icon"><i className="fa fa-bars" aria-hidden="true"></i>
-                                            </div>
-                                            <div className="icon selected"><i className="fa fa-th"
-                                                                              aria-hidden="true"></i></div>
-                                        </div>
-                                    </div>
-
-                                </header>
-
-                                <ul className="projects">
-                                    {(activeIndex === 1 || activeIndex === 0) && listAds && listAds.filter(item => {
-                                        if (query === '') {
-                                            return item;
-                                        } else if (item.title.toLowerCase().includes(query.toLowerCase())) {
-                                            return item;
-                                        }
-                                    }).map((i, index) =>
-                                        <Ads key={i.id_ads} ads={listAds[index]} onDelete={onDeleteBoard}/>
-                                    )}
-
-                                    {(activeIndex === 2 || activeIndex === 0) && listArchiveAds && listArchiveAds.filter(item => {
-                                        if (query === '') {
-                                            return item;
-                                        } else if (item.title.toLowerCase().includes(query.toLowerCase())) {
-                                            return item;
-                                        }
-                                    }).map((i, index) =>
-                                        <Ads key={i.id_ads} ads={listArchiveAds[index]}
-                                             onDelete={onDeleteToArchiveAds}/>
-                                    )}
-                                </ul>
-                            </section>
-                            <Modal open={open} setOpen={setOpen} title={"Add new ads"} initialValue={""}
-                                   onSave={newAds}/>
-                            {user.role === "ADMIN" ?
-                                <div className="fab-icon" onClick={() => setOpen(true)}>+</div> : ""}
-                        </div>
-                    </section>
-                </div>
-            </div>
+                            <Tab label={`Все (${listArchiveAds?.length + listAds?.length})`}/>
+                            <Tab label={`Активные (${listAds?.length})`}/>
+                            <Tab label={`Арзивные (${listArchiveAds?.length})`}/>
+                        </Tabs>
+                    </Box>
+                    <List className="projects">
+                        {(activeIndex === 1 || activeIndex === 0) &&
+                            listAds &&
+                            listAds
+                                .filter(item => {
+                                    if (query === "") {
+                                        return item;
+                                    } else if (item.title.toLowerCase().includes(query.toLowerCase())) {
+                                        return item;
+                                    }
+                                })
+                                .map(i => (
+                                        <Ads key={i.id_ads} ads={i} onDelete={onDeleteBoard}/>
+                                ))}
+                        {(activeIndex === 2 || activeIndex === 0) &&
+                            listArchiveAds &&
+                            listArchiveAds
+                                .filter(item => {
+                                    if (query === "") {
+                                        return item;
+                                    } else if (item.title.toLowerCase().includes(query.toLowerCase())) {
+                                        return item;
+                                    }
+                                })
+                                .map(i => (
+                                        <Ads key={i.id_ads} ads={i} onDelete={onDeleteToArchiveAds}/>
+                                ))}
+                    </List>
+                    {user.role === 'ADMIN' && (
+                        <IconButton color="success" onClick={() => setOpen(true)}>
+                            <Add/>
+                        </IconButton>
+                    )}
+                </Container>
+            </Box>
+            <CustomModal
+                open={open}
+                setOpen={setOpen}
+                title="Add new ads"
+                initialValue={{
+                    title: "",
+                    text: "",
+                    date_end: "",
+                    likes: 0,
+                    dislike: 0,
+                }}
+                onSave={newAds}
+            />
         </div>
-    );
+    )
+        ;
 };
 
 export default Board;
