@@ -25,7 +25,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts CI= npm build",
+    "build": "CI=false npm run build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
