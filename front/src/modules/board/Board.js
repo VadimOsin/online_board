@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import {createAdsToBoard, deleteAdsToBoard, getAllAdsToBoard} from "./axios/boardApi";
 import Ads from "./components/itemAds/ads";
-import {UserContext} from "../Auth/context/userContext";
+import {UserContext} from "../auth/context/userContext";
 import {createAds, deleteAds, getOneByIdAds, updateAds} from "./axios/adsApi";
 import {createAdsToArchive, deleteAdsToArchive, getAllAdsToArchive} from "./axios/archiveApi";
 import {Add} from "@mui/icons-material";

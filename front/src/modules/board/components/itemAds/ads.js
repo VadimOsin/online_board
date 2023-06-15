@@ -1,9 +1,9 @@
 import React, {useContext} from 'react';
-import {UserContext} from '../../../Auth/context/userContext';
+import {UserContext} from '../../../auth/context/userContext';
 import {Card, CardMedia, CardContent, Typography, IconButton, Box, ListItem} from '@mui/material';
 import {Delete, MoreHoriz, Alarm} from '@mui/icons-material';
 import {useNavigate} from "react-router-dom";
-import {ADS_ROUTE} from "../../../Auth/utils/const";
+import {ADS_ROUTE} from "../../../auth/utils/const";
 
 const Ads = ({ads, onDelete, onEditAds}) => {
     const navigate = useNavigate()

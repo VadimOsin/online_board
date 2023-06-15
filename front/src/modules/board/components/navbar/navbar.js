@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
-import {UserContext} from '../../../Auth/context/userContext';
-import {BOARD_ROUTE, EDIT_PROFILE_ROUTE, LOGIN_ROUTE} from '../../../Auth/utils/const';
+import {UserContext} from '../../../auth/context/userContext';
+import {BOARD_ROUTE, EDIT_PROFILE_ROUTE, LOGIN_ROUTE} from '../../../auth/utils/const';
 import {Link} from 'react-router-dom';
 import {AppBar, Toolbar, Typography, Button} from '@mui/material';
 

@@ -3,7 +3,7 @@ import {UserContext} from "./context/userContext";
 import {authRoutes, publicRoutes} from "./routes/routes";
 import {Routes, Route} from 'react-router-dom';
 import {check} from "./axios/userApi";
-import Navbar from "../Board/components/navbar/navbar";
+import Navbar from "../board/components/navbar/navbar";
 
 const Auth = () => {
     const [user, setUser] = useState({
