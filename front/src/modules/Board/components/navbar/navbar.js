@@ -13,7 +13,7 @@ const Navbar = () => {
         <AppBar position="static">
             <Toolbar>
                 <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
-                    Online Board
+                    <Button component={Link} to={BOARD_ROUTE} color="inherit"> Online Board</Button>
                 </Typography>
 
                 <div className="user-options">

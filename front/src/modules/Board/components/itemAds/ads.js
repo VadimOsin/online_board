@@ -1,12 +1,12 @@
-import React, {useContext, useState} from 'react';
-
+import React, {useContext} from 'react';
 import {UserContext} from '../../../Auth/context/userContext';
 import {Card, CardMedia, CardContent, Typography, IconButton, Box, ListItem} from '@mui/material';
 import {Delete, MoreHoriz, Alarm} from '@mui/icons-material';
-import CustomModal from "../modal/modal";
-import {updateAds} from "../../axios/adsApi";
+import {useNavigate} from "react-router-dom";
+import {ADS_ROUTE} from "../../../Auth/utils/const";
 
-const Ads = ({ads, onDelete,onEditAds}) => {
+const Ads = ({ads, onDelete, onEditAds}) => {
+    const navigate = useNavigate()
     const user = useContext(UserContext);
     const date = new Date(ads.date_end.slice(0, -5));
     const today = new Date();
@@ -26,7 +26,8 @@ const Ads = ({ads, onDelete,onEditAds}) => {
     return (<>
             <ListItem sx={{marginBottom: 2, maxWidth: 350, maxHeight: 350}}>
                 <Card sx={{width: 300, height: 300}}>
-                    <CardMedia component="img" height="140" image={process.env.REACT_APP_API_URL + ads.url} alt="img"/>
+                    <CardMedia onClick={() => navigate(`${ADS_ROUTE}/${ads.id_ads}`)} component="img" height="140"
+                               image={process.env.REACT_APP_API_URL + ads.url} alt="img"/>
                     <CardContent>
                         <Typography variant="h5" component="div">
                             {ads.title}

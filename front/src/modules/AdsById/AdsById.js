@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import {
-    AppBar,
-    Toolbar,
     Typography,
     Container,
     Card,
@@ -48,13 +46,6 @@ const AdsById = () => {
 
     return (
         <Box>
-            <AppBar position="static">
-                <Toolbar>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Пользовательский заголовок
-                    </Typography>
-                </Toolbar>
-            </AppBar>
             <Container maxWidth="md" sx={{ marginTop: 4 }}>
                 <Card>
                     <CardMedia
