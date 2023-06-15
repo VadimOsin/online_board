@@ -17,10 +17,9 @@ const AllCommentsByUser = () => {
     const [comments, setComments] = useState([]);
 
     useEffect(() => {
-        // Здесь вы можете добавить логику для получения комментариев пользователя из сервера или хранилища данных
-        // В данном примере используется временный массив с комментариями
+
         const fetchUserComments = async () => {
-            // Вместо этого блока кода, добавьте логику для получения комментариев пользователя
+
             const userComments = [
                 {
                     id: 1,
@@ -46,13 +45,7 @@ const AllCommentsByUser = () => {
 
     return (
         <Box>
-            <AppBar position="static">
-                <Toolbar>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Пользовательский заголовок
-                    </Typography>
-                </Toolbar>
-            </AppBar>
+
             <Container maxWidth="md" sx={{ marginTop: 4 }}>
                 <Typography variant="h5" gutterBottom>
                     Ваши комментарии

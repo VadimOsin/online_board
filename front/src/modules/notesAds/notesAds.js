@@ -50,13 +50,6 @@ const NotesAds = () => {
 
     return (
         <Box>
-            <AppBar position="static">
-                <Toolbar>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Пользовательский заголовок
-                    </Typography>
-                </Toolbar>
-            </AppBar>
             <Container maxWidth="md" sx={{ marginTop: 4 }}>
                 <Typography variant="h5" gutterBottom>
                     Сохраненные новости
