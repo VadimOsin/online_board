@@ -8,7 +8,6 @@ import {
     List,
     IconButton,
 } from '@mui/material';
-import Navbar from "./components/navbar/navbar";
 import {createAdsToBoard, deleteAdsToBoard, getAllAdsToBoard} from "./axios/boardApi";
 import Ads from "./components/itemAds/ads";
 import {UserContext} from "../Auth/context/userContext";
@@ -98,7 +97,7 @@ const Board = () => {
     };
     return (
         <div>
-            <Navbar/>
+
             <Box>
                 <Container maxWidth="md" sx={{marginTop: 4}}>
                     <TextField

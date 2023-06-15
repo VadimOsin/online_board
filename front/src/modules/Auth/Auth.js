@@ -3,6 +3,7 @@ import {UserContext} from "./context/userContext";
 import {authRoutes, publicRoutes} from "./routes/routes";
 import {Routes, Route} from 'react-router-dom';
 import {check} from "./axios/userApi";
+import Navbar from "../Board/components/navbar/navbar";
 
 const Auth = () => {
     const [user, setUser] = useState({
@@ -41,6 +42,7 @@ const Auth = () => {
 
     return (
         <UserContext.Provider value={{...user, signIn, logOut}}>
+            <Navbar/>
             <Routes>
                 {user.isAuth && authRoutes.map(({path, Component}) =>
                     <Route key={path} path={path} element={<Component/>}/>

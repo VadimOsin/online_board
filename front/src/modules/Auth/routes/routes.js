@@ -1,13 +1,14 @@
-import {ADMIN_ROUTE, ADS_ROUTE, BOARD_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE} from "../utils/const";
+import {ADMIN_ROUTE, ADS_ROUTE, BOARD_ROUTE, EDIT_PROFILE_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE} from "../utils/const";
 import Login from "../component/login/login";
 import Board from "../../Board/Board";
 import AdsById from "../../AdsById/AdsById";
+import EditProfile from "../../editProfile/editProfile";
 
 export const authRoutes = [
-    // {
-    //     path: ADMIN_ROUTE+ '/:id',
-    //     Component: AddOrEditFilm
-    // }
+    {
+        path: EDIT_PROFILE_ROUTE,
+        Component: EditProfile
+    },
     {
         path: LOGIN_ROUTE,
         Component: Login
