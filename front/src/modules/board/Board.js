@@ -5,9 +5,10 @@ import {
     TextField,
     Tabs,
     Tab,
-    List,
-    IconButton,
+    List
+    , Fab,
 } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import {createAdsToBoard, deleteAdsToBoard, getAllAdsToBoard} from "./axios/boardApi";
 import Ads from "./components/itemAds/ads";
 import {UserContext} from "../auth/context/userContext";
@@ -150,9 +151,9 @@ const Board = () => {
                                 ))}
                     </List>
                     {user.role === 'ADMIN' && (
-                        <IconButton color="success" onClick={() => setOpen(true)}>
-                            <Add/>
-                        </IconButton>
+                        <Fab onClick={() => setOpen(true)} size="medium" color="primary" aria-label="add">
+                            <AddIcon/>
+                        </Fab>
                     )}
                 </Container>
             </Box>
