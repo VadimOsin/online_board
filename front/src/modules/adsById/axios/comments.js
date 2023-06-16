@@ -17,3 +17,23 @@ export const getAllComments = async (id) => {
         throw new Error('Ошибка при получении комментариев!');
     }
 };
+
+export const createComments = async (title,
+                                     text,
+                                     date_created,
+                                     id_person,
+                                     id_ads) => {
+
+    try {
+        const {data} = await $authHost.post(`api/comments/`, {
+            title,
+            text,
+            date_created,
+            id_person,
+            id_ads
+        })
+        return data
+    } catch (error) {
+        throw new Error('Ошибка при создании комментария!');
+    }
+};
