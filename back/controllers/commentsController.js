@@ -18,6 +18,22 @@ class CommentsController {
         }
     }
 
+    async commentGetAllByUser(req, res) {
+        const { id } = req.params;
+        try {
+            const comments = await db.query(
+                "SELECT * FROM comments WHERE id_person = $1",
+                [id]
+            );
+            if (comments.rows.length === 0) {
+                return res.status(404).json({ message: "Comments not found" });
+            }
+            return res.json(comments.rows);
+        } catch (err) {
+            res.status(500).json({ message: "Error getting comments", error: err });
+        }
+    }
+
     async commentDelete(req, res) {
         const { id } = req.params;
         try {
