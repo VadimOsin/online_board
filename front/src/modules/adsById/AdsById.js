@@ -11,12 +11,14 @@ import {
     List,
     ListItem,
     ListItemText,
-    Divider,
+    Divider, Paper,
 } from '@mui/material';
 import {getOneByIdAds} from "../board/axios/adsApi";
 import {useParams} from "react-router-dom";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import {getAllComments} from "./axios/comments";
+import {getUserInfo} from "./axios/user";
 
 const AdsById = () => {
     const [comments, setComments] = useState([]);
@@ -28,6 +30,25 @@ const AdsById = () => {
         getOneByIdAds(id)
             .then(res => setNews(res))
             .catch(e => console.log(e.data.message));
+    }, [id]);
+
+    useEffect(() => {
+        const fetchComments = async () => {
+            try {
+                const commentsData = await getAllComments(id);
+                const commentsWithUsers = await Promise.all(
+                    commentsData.map(async (comment) => {
+                        const user = await getUserInfo(comment.id_person);
+                        return {...comment, user};
+                    })
+                );
+                setComments(commentsWithUsers);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchComments();
     }, [id]);
 
     const handleCommentChange = (e) => {
@@ -101,19 +122,33 @@ const AdsById = () => {
                             <Typography variant="h6" gutterBottom>
                                 Комментарии
                             </Typography>
-                            <List>
-                                {comments.map((comment, index) => (
-                                    <React.Fragment key={index}>
-                                        <ListItem>
-                                            <ListItemText
-                                                primary={`${comment.author} - ${comment.time}`}
-                                                secondary={comment.text}
-                                            />
-                                        </ListItem>
-                                        <Divider/>
-                                    </React.Fragment>
-                                ))}
-                            </List>
+                            <Paper elevation={3} style={{padding: '16px', marginTop: '16px', border: '1px solid #ccc'}}>
+                                <List>
+                                    {comments.map((comment, index) => (
+                                        <React.Fragment key={comment.id_comments}>
+                                            <Paper elevation={3} style={{
+                                                padding: '16px',
+                                                marginTop: '16px',
+                                                border: '1px solid #ccc'
+                                            }}>
+                                                <ListItem>
+                                                    <ListItemText
+                                                        primary={comment.title}
+                                                        secondary={comment.text}
+                                                    />
+                                                </ListItem>
+                                                <ListItem>
+                                                    <ListItemText
+                                                        primary={`${comment?.user?.name} ${comment?.user?.surname}`}
+                                                        secondary={formatDate(comment.date_created)}
+                                                    />
+                                                </ListItem>
+                                            </Paper>
+                                            {index !== comments.length - 1 && <Divider/>}
+                                        </React.Fragment>
+                                    ))}
+                                </List>
+                            </Paper>
                             <Box sx={{marginTop: 2}}>
                                 <TextField
                                     label="Оставить комментарий"

@@ -3,7 +3,7 @@ const router = new Router()
 const commentsController = require('../controllers/commentsController')
 
 
-router.get('/:id', commentsController.commentGetOne)
+router.get('/:id', commentsController.commentGetAll)
 router.post('/', commentsController.commentCreate)
 router.put('/:id', commentsController.commentUpdate)
 router.delete('/:id', commentsController.commentDelete)

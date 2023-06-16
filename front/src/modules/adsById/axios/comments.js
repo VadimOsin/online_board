@@ -11,7 +11,7 @@ export const deleteComment = async (id) => {
 
 export const getAllComments = async (id) => {
     try {
-        const {data} = await $authHost.delete(`api/comments/${id}`)
+        const {data} = await $authHost.get(`api/comments/${id}`)
         return data
     } catch (error) {
         throw new Error('Ошибка при получении комментариев!');
