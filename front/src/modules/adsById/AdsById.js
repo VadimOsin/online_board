@@ -130,7 +130,7 @@ const AdsById = () => {
                         <Card>
                             <CardMedia
                                 component="img"
-                                height="140"
+                                height="500"
                                 image={process.env.REACT_APP_API_URL + news.url}
                                 alt={news.title}
                             />

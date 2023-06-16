@@ -5,7 +5,7 @@ import {Delete, MoreHoriz, Alarm} from '@mui/icons-material';
 import {useNavigate} from "react-router-dom";
 import {ADS_ROUTE} from "../../../auth/utils/const";
 
-const Ads = ({ads, onDelete, onEditAds}) => {
+const Ads = ({ads, onDelete, onEditAds, viewMode}) => {
     const navigate = useNavigate()
     const user = useContext(UserContext);
     const date = new Date(ads.date_end.slice(0, -5));
@@ -24,8 +24,12 @@ const Ads = ({ads, onDelete, onEditAds}) => {
     }
 
     return (<>
-            <ListItem sx={{marginBottom: 2, maxWidth: 350, maxHeight: 350}}>
-                <Card sx={{width: 300, height: 300}}>
+            <ListItem sx={viewMode === 'list' ? {marginBottom: 2, maxWidth: 900, maxHeight: 500} : {
+                marginBottom: 2,
+                maxWidth: 350,
+                maxHeight: 350
+            }}>
+                <Card sx={viewMode === 'list' ? {width: 900, height: 300} : {width: 300, height: 300}}>
                     <CardMedia onClick={() => navigate(`${ADS_ROUTE}/${ads.id_ads}`)} component="img" height="140"
                                image={process.env.REACT_APP_API_URL + ads.url} alt="img"/>
                     <CardContent>

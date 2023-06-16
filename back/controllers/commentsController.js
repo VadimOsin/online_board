@@ -76,7 +76,7 @@ class CommentsController {
                 id_person,
                 id_ads
             } = req.body
-            date_created = moment(date_created, 'DD-MM-YYYY').format('YYYY-MM-DD');
+            // date_created = moment(date_created, 'DD-MM-YYYY').format('YYYY-MM-DD');
             const newComment = await db.query(`INSERT INTO comments (title,
                                                                       text,
                                                                       date_created,
